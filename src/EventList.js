@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import Event from './Event';
 
 class EventList extends Component {
-  render() {
+  render () {
     const { events } = this.props;
     return (
       <ul className="EventList">
-        {this.props.events.map(event =>
-          <li key={event.id}>
+        {events.map(event =>
+        <li key={event.id}>
           <Event event={event} />
         </li>
         )}
       </ul>
     );
-  }
 }
-
+}
 export default EventList;

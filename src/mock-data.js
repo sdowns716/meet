@@ -24,5 +24,3 @@ const mockData = [
       location: "Berlin, Germany",
     }, 
 ];
-
-export { mockData }

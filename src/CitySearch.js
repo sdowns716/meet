@@ -29,14 +29,16 @@ class CitySearch extends Component {
           onChange={this.handleInputChanged}
         />
         <ul className="suggestions">
-          {this.state.suggestions.map((item) => (
-            <li
-              key={item.name_string}
-              onClick={() => this.handleItemClicked("all")}>
-              <b>See all cities</b>  
-            </li>
-          ))}
-        </ul>
+  {this.state.suggestions.map((suggestion) => (
+    <li
+      key={suggestion}
+      onClick={() => this.handleItemClicked(suggestion)}
+    >{suggestion}</li>
+  ))}
+  <li onClick={() => this.handleItemClicked("all")}>
+    <b>See all cities</b>
+  </li>
+</ul>
       </div>
     );
   }
