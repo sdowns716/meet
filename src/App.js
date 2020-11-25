@@ -3,36 +3,60 @@ import './App.css';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
-import Event from './Event';
 import { extractLocations, getEvents } from './api';
+import "./nprogress.css";
 
 class App extends Component {
   state = {
     events: [],
-    locations: []
+    locations: [],
+    NumberOfEvents: 32, 
+    currentLocation: "all"
   };
 
-  updateEvents = (location) => {
-    getEvents().then((events) => {
-      const locationEvents = (location === 'all') ?
-        events :
-        events.filter((event) => event.location === location);
-      this.setState({
-        events: locationEvents
+  
+  updateEvents = (location, eventCount) => {
+    const { currentLocation, numberOfEvents } = this.state;
+    if (location) {
+      getEvents().then((events) => {
+        const locationEvents =
+          location === "all"
+            ? events
+            : events.filter((event) => event.location === location);
+        const filteredEvents = locationEvents.slice(0, numberOfEvents);
+        this.setState({
+          events: filteredEvents,
+          currentLocation: location,
+        });
       });
-    });
-  }
+    } else {
+      getEvents().then((events) => {
+        const locationEvents =
+          currentLocation === "all"
+            ? events
+            : events.filter((event) => event.location === currentLocation);
+        const filteredEvents = locationEvents.slice(0, eventCount);
+        this.setState({
+          events: filteredEvents,
+          numberOfEvents: eventCount,
+        });
+      });
+    }
+  };
 
   componentDidMount() {
     this.mounted = true;
-    getEvents().then((response) => {
-      if(this.mounted) {
-      this.setState({ events: response.events, locations: response.locations });
+    getEvents().then((events) => {
+      if (this.mounted) {
+        this.setState({
+          events: events,
+          locations: extractLocations(events),
+        });
       }
     });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.mounted = false;
   }
 
@@ -41,6 +65,9 @@ class App extends Component {
       <div className="App">
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
         <EventList events={this.state.events} />
+        <NumberOfEvents
+            updateEvents={this.updateEvents}
+            numberOfEvents={this.state.numberOfEvents} />
       </div>
     );
   }

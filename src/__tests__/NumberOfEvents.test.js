@@ -1,36 +1,59 @@
 import React from "react";
 import { shallow } from "enzyme";
-import NumberofEvents from "../NumberofEvents";
+import NumberOfEvents from "../NumberOfEvents";
 
-describe("<NumberofEvents /> component", () => {
-  let NumberofEventsWrapper;
+describe("<NumberOfEvents /> component", () => {
+  let NumberOfEventsWrapper;
   beforeAll(() => {
-    NumberofEventsWrapper = shallow(<NumberofEvents updateEvents={() => {}} />);
+    NumberOfEventsWrapper = shallow(<NumberOfEvents updateEvents={() => {}} />);
   });
 
-  test("render textbox element", () => {
-    expect(NumberofEventsWrapper.find(".numberOfEvents")).toHaveLength(1);
+  test("render the NumberOfEvents component", () => {
+    expect(NumberOfEventsWrapper).toHaveLength(1);
   });
 
-  test("check number of events textbox is rendered correctly", () => {
-    expect(NumberofEventsWrapper.find(".numberOfEvents input")).toHaveLength(1);
+  test("render NumberOfEvents textbox element", () => {
+    expect(NumberOfEventsWrapper.find(".numberOfEvents")).toHaveLength(1);
+  });
+
+  test(" number of events textbox is rendered correctly", () => {
+    expect(NumberOfEventsWrapper.find(".numberOfEvents input")).toHaveLength(1);
   });
 
   test("check default value of number of events", () => {
     expect(
-      NumberofEventsWrapper.find(".numberOfEvents input").prop("value")
+      NumberOfEventsWrapper.find(".numberOfEvents input").prop("value")
     ).toBe(32);
   });
 
   test("check changing the value of number of events", () => {
-    NumberofEventsWrapper.find(".numberOfEvents input").simulate("change", {
+    NumberOfEventsWrapper.find(".numberOfEvents input").simulate("change", {
       target: { value: 24 },
     });
 
-    expect(NumberofEventsWrapper.state("numberOfEvents")).toBe(24);
+    expect(NumberOfEventsWrapper.state("numberOfEvents")).toBe(24);
   });
 
   test("show number of events input label", () => {
-    expect(NumberofEventsWrapper.find(".numberOfEvents label")).toHaveLength(1);
+    expect(NumberOfEventsWrapper.find(".numberOfEvents label")).toHaveLength(1);
+  });
+
+  test("renders text input correctly", () => {
+    const numberOfEvents = NumberOfEventsWrapper.state("numberOfEvents");
+    expect(NumberOfEventsWrapper.find(".eventsNumberInput").prop("value")).toBe(
+      numberOfEvents
+    );
+  });
+  
+  test("change state when text input changes", () => {
+    NumberOfEventsWrapper.setState({
+      numberOfEvents: "32",
+    });
+    const eventObject = { target: { value: "10" } };
+    NumberOfEventsWrapper.find(".eventsNumberInput").simulate("change", eventObject);
+    expect(NumberOfEventsWrapper.state("numberOfEvents")).toBe("10");
   });
 });
+
+
+

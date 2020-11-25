@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 
-class NumberofEvents extends Component {
-  state = { numberOfEvents: 32 };
+class NumberOfEvents extends Component {
+  state = { 
+    numberOfEvents: 32 
+  };
 
   handleOnChange = (event) => {
     const value = event.target.value;
-    this.setState({ numberOfEvents: value });
-    this.props.updateEvents(null, null, value);
+    this.setState({ 
+      numberOfEvents: value 
+    });
+    this.props.updateEvents(null, value);
   };
 
   render() {
@@ -23,4 +27,4 @@ class NumberofEvents extends Component {
   }
 }
 
-export default NumberofEvents;
+export default NumberOfEvents;

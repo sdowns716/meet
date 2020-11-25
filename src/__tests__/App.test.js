@@ -10,7 +10,7 @@ import { extractLocations, getEvents } from '../api';
 describe('<App /> component', () => {
   let AppWrapper;
   beforeAll(() => {
-    AppWrapper = shallow(<App />);
+   AppWrapper = shallow(<App />);
   });
 
   test('render list of events', () => {
@@ -20,6 +20,10 @@ describe('<App /> component', () => {
   test('render CitySearch', () => {
     expect(AppWrapper.find(CitySearch)).toHaveLength(1);
   });
+
+  test('render NumberOfEvents component', () => {
+  expect(AppWrapper.find(NumberOfEvents)).toHaveLength(1);
+});
 });
 
 describe('<App /> integration', () => {
@@ -30,6 +34,7 @@ describe('<App /> integration', () => {
     expect(AppWrapper.find(EventList).props().events).toEqual(AppEventsState);
     AppWrapper.unmount();
   });
+
   test('App passes "locations" state as a prop to CitySearch', () => {
     const AppWrapper = mount(<App />);
     const AppLocationsState = AppWrapper.state('locations');
@@ -37,6 +42,7 @@ describe('<App /> integration', () => {
     expect(AppWrapper.find(CitySearch).props().locations).toEqual(AppLocationsState);
     AppWrapper.unmount();
   });
+
   test('get list of events matching the city selected by the user', async () => {
     const AppWrapper = mount(<App />);
     const CitySearchWrapper = AppWrapper.find(CitySearch);
@@ -51,12 +57,35 @@ describe('<App /> integration', () => {
     expect(AppWrapper.state('events')).toEqual(eventsToShow);
     AppWrapper.unmount();
   });
+
   test('get list of all events when user selects "See all cities"', async () => {
     const AppWrapper = mount(<App />);
     const suggestionItems = AppWrapper.find(CitySearch).find('.suggestions li');
     await suggestionItems.at(suggestionItems.length - 1).simulate('click');
     const allEvents = await getEvents();
     expect(AppWrapper.state('events')).toEqual(allEvents);
+    AppWrapper.unmount();
+  });
+
+  test('App passes "numberOfEvents" as a prop to NumberOfEvents', () => {
+    const AppWrapper = mount(<App />);
+    const AppNumberOfEventsState = AppWrapper.state("numberOfEvents");
+    expect(AppWrapper.find(NumberOfEvents).props().numberOfEvents).toEqual(
+      AppNumberOfEventsState
+    );
+    AppWrapper.unmount();
+  });
+  
+  test("change list of events after user updates number", () => {
+    const AppWrapper = mount(<App />);
+    const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+    AppWrapper.instance().updateEvents = jest.fn();
+    AppWrapper.instance().forceUpdate();
+    NumberOfEventsWrapper.setState({ numberOfEvents: 32 });
+    const eventObject = { target: { value: 1 } };
+    NumberOfEventsWrapper.find(".eventsNumberInput").simulate("change", eventObject);
+    expect(NumberOfEventsWrapper.state("numberOfEvents")).toBe(1);
+    expect(AppWrapper.instance().updateEvents).toHaveBeenCalledWith(null, 1);
     AppWrapper.unmount();
   });
 });
