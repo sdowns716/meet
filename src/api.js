@@ -28,7 +28,7 @@ export const getEvents = async () => {
 
   if (token) {
     removeQuery();
-    const url = `YOUR_GET_EVENTS_API_ENDPOINT/${token}`;
+    const url = `api/get-events/${token}`;
     const result = await axios.get(url);
     if (result.data) {
       var locations = extractLocations(result.data.events);
@@ -56,7 +56,7 @@ const removeQuery = () => {
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
   const { access_token } = await fetch(
-    `YOUR_GET_ACCESS_TOKEN_ENDPOINT/${encodeCode}`
+    `api/token/${encodeCode}`
   )
     .then((res) => {
       return res.json();
@@ -78,7 +78,7 @@ export const getAccessToken = async () => {
     const code = await searchParams.get("code");
     if (!code) {
       const results = await axios.get(
-        "YOUR_SERVERLESS_GET_AUTH_URL_ENDPOINT"
+        "/get-auth-url"
       );
       const { authUrl } = results.data;
       return (window.location.href = authUrl);
