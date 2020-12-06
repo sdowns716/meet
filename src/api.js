@@ -35,13 +35,11 @@ export const getEvents = async () => {
     return mockData;
   }
 
-
   const token = await getAccessToken();
 
   if (token) {
     removeQuery();
     const url = `https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/get-events/${token}`;
-
     const result = await axios.get(url);
     if (result.data) {
       var locations = extractLocations(result.data.events);

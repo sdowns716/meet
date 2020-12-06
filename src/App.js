@@ -5,6 +5,7 @@ import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 import { extractLocations, getEvents } from './api';
 import "./nprogress.css";
+import { OfflineAlert } from "./Alert";
 
 class App extends Component {
   state = {
@@ -54,7 +55,20 @@ class App extends Component {
         });
       }
     });
+
+    window.addEventListener("online", this.offlineAlert());
   }
+
+  offlineAlert = () => {
+    if (navigator.onLine === false) {
+      this.setState({
+        alertText:
+          "You are currently offline. Please connect to the internet for an updated list of events",
+      });
+    } else {
+      this.setState({ alertText: "" });
+    }
+  };
 
   componentWillUnmount() {
     this.mounted = false;
@@ -63,6 +77,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+         <OfflineAlert text={this.state.alertText} />
         <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
         <EventList events={this.state.events} />
         <NumberOfEvents
