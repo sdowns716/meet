@@ -1,6 +1,6 @@
 import { mockData } from './mock-data'
 import axios from 'axios';
-import nProgress from 'nprogress';
+import NProgress from 'nprogress';
 
 export const extractLocations = (events) => {
   var extractLocations = events.map((event) => event.location);
@@ -8,30 +8,20 @@ export const extractLocations = (events) => {
   return locations;
 };
 
-const checkToken = async (accessToken) => {
-  const result = await fetch(
-    `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
-  )
-    .then((res) => res.json())
-    .catch((error) => error.json());
-
-  return result;
-};
-
 export const getEvents = async () => {
-  nProgress.start();
+  NProgress.start();
 
   if (
     !navigator.onLine &&
     !window.location.href.startsWith("http://localhost")
   ) {
     const events = localStorage.getItem("lastEvents");
-    nProgress.done();
+    NProgress.done();
     return JSON.parse(events).events;
   }
 
   if (window.location.href.startsWith("http://localhost")) {
-    nProgress.done();
+    NProgress.done();
     return mockData;
   }
 
@@ -46,37 +36,9 @@ export const getEvents = async () => {
       localStorage.setItem("lastEvents", JSON.stringify(result.data));
       localStorage.setItem("locations", JSON.stringify(locations));
     }
-    nProgress.done();
+    NProgress.done();
     return result.data.events;
   }
-};
-
-const removeQuery = () => {
-  if (window.history.pushState && window.location.pathname) {
-    var newurl =
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      window.location.pathname;
-    window.history.pushState("", "", newurl);
-  } else {
-    newurl = window.location.protocol + "//" + window.location.host;
-    window.history.pushState("", "", newurl);
-  }
-};
-const getToken = async (code) => {
-  const encodeCode = encodeURIComponent(code);
-  const { access_token } = await fetch(
-    `https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/token/${encodeCode}`
-  )
-    .then((res) => {
-      return res.json();
-    })
-    .catch((error) => error);
-
-  access_token && localStorage.setItem("access_token", access_token);
-
-  return access_token;
 };
 
 export const getAccessToken = async () => {
@@ -98,3 +60,42 @@ export const getAccessToken = async () => {
   }
   return accessToken;
 }
+
+const checkToken = async (accessToken) => {
+  const result = await fetch(
+    `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
+  )
+    .then((res) => res.json())
+    .catch((error) => error.json());
+
+  return result;
+};
+
+export const removeQuery = () => {
+  if (window.history.pushState && window.location.pathname) {
+    var newurl =
+      window.location.protocol +
+      "//" +
+      window.location.host +
+      window.location.pathname;
+    window.history.pushState("", "", newurl);
+  } else {
+    newurl = window.location.protocol + "//" + window.location.host;
+    window.history.pushState("", "", newurl);
+  }
+};
+
+export const getToken = async (code) => {
+  const encodeCode = encodeURIComponent(code);
+  const { access_token } = await fetch(
+    `https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/token/${encodeCode}`
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .catch((error) => error);
+
+  access_token && localStorage.setItem("access_token", access_token);
+
+  return access_token;
+};
