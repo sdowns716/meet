@@ -92,6 +92,7 @@ class App extends Component {
 
   render() {
     const { locations, numberOfEvents, events } = this.state;
+    const data = this.getData().sort((a, b) => (a.city > b.city ? 1 : -1));
     return (
       <div className="App">
         <h1>Meet App</h1>
@@ -104,7 +105,7 @@ class App extends Component {
         />       
         <div className="data-vis-wrapper">
           <EventGenre 
-            events={this.state.events} />
+            events={events} />
           <ResponsiveContainer height={400} >
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid />
