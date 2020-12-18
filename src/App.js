@@ -50,35 +50,6 @@ class App extends Component {
     }
   };
 
-  componentDidMount() {
-    this.mounted = true;
-    getEvents().then((events) => {
-      if (this.mounted) {
-        this.setState({
-          events: events,
-          locations: extractLocations(events),
-        });
-      }
-    });
-
-    window.addEventListener("online", this.offlineAlert());
-  }
-
-  offlineAlert = () => {
-    if (navigator.onLine === false) {
-      this.setState({
-        alertText:
-          "You are currently offline. Please connect to the internet for an updated list of events",
-      });
-    } else {
-      this.setState({ alertText: "" });
-    }
-  };
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
   getData = () => {
     const {locations, events} = this.state;
     const data = locations.map((location)=>{
@@ -88,6 +59,26 @@ class App extends Component {
     })
     return data;
   };
+
+  componentDidMount() {
+    this.mounted = true;
+    if (!navigator.onLine){
+      this.setState({
+        OfflineAlert: 'You are offline.'
+      });
+    }
+    getEvents().then((events) => {
+      if (this.mounted) {
+        this.setState({
+          events: events, locations: extractLocations(events)
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
 
   render() {
     const { locations, numberOfEvents, events } = this.state;
@@ -123,5 +114,5 @@ class App extends Component {
 </div>
 );
 }
-} 
+}
 export default App;
