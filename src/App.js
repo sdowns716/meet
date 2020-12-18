@@ -21,7 +21,6 @@ class App extends Component {
     alertText: "",
   };
 
-  
   updateEvents = (location, eventCount) => {
     const { currentLocation, numberOfEvents } = this.state;
     if (location) {
@@ -104,7 +103,7 @@ class App extends Component {
           numberOfEvents={numberOfEvents}
         />       
         <div className="data-vis-wrapper">
-          <EventGenre events={events}>
+          <EventGenre events={events} />
           <ResponsiveContainer height={400} >
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid />
@@ -119,7 +118,6 @@ class App extends Component {
             <Scatter data={this.getData()} fill="#8884d8" />
           </ScatterChart>
         </ResponsiveContainer>
-      </EventGenre>
     </div>  
   <EventList events={events} />
 </div>

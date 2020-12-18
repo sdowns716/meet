@@ -1,10 +1,7 @@
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const calendar = google.calendar("v3");
-/**
- * SCOPES allows you to set access levels; this is set to readonly for now because you don't have access rights to
- * update the calendar yourself. For more info, check out the SCOPES documentation at this link: https://developers.google.com/identity/protocols/oauth2/scopes
- */
+
 const SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
 
 /**
@@ -37,22 +34,15 @@ const oAuth2Client = new google.auth.OAuth2(
  *
  */
 module.exports.getAuthURL = async () => {
-  /**
-   *
-   * Scopes array passed to the `scope` option. Any scopes passed must be enabled in the
-   * "OAuth consent screen" settings in your project on your Google Console. Also, any passed
-   *  scopes are the ones users will see when the consent screen is displayed to them.
-   *
-   */
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES,
   });
-
   return {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
     },
     body: JSON.stringify({
       authUrl: authUrl,
@@ -88,10 +78,10 @@ module.exports.getAccessToken = async (event) => {
         return {
           statusCode: 200,
           headers: {
-            // "Access-Control-Allow-Headers": "Content-Type",
+           "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Allow-Origin": "*",
-            // "Access-Control-Allow-Credentials": true,
-            // "Access-Control-Allow-Methods": "OPTIONS, POST, GET"
+            "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Methods": "OPTIONS, POST, GET"
           },
           body: JSON.stringify(token),
         };
@@ -139,10 +129,10 @@ module.exports.getAccessToken = async (event) => {
         return {
           statusCode: 200,
           headers: {
-            // "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Allow-Origin": "*",
-            // "Access-Control-Allow-Credentials": true,
-            // "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+             "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
           },
           body: JSON.stringify({
             events: results.data.items
