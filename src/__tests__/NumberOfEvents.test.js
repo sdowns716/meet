@@ -16,7 +16,7 @@ describe("<NumberOfEvents /> component", () => {
     expect(NumberOfEventsWrapper.find(".numberOfEvents")).toHaveLength(1);
   });
 
-  test(" number of events textbox is rendered correctly", () => {
+  test("number of events textbox is rendered correctly", () => {
     expect(NumberOfEventsWrapper.find(".numberOfEvents input")).toHaveLength(1);
   });
 
