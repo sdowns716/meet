@@ -89,6 +89,21 @@
           });
       };
 
+      const getEvents = document.getElementById("getEvents");
+      const events = document.getElementById("events");
+      const getCalendarEvents = "https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/get-events/{access_token}"
+      getEvents.onclick = function () {
+      const { access_token } = JSON.parse(accessTokenElement.innerText);
+      const eventRequest = getCalendarEvents + access_token;
+      fetch(eventRequest)
+     .then(function (response) {
+       return response.json();
+     })
+     .then(function (json) {
+     events.innerText = JSON.stringify(json, null, 2);
+       });
+   };
+
     </script>
   </body>
 </html>
