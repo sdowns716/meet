@@ -44,9 +44,8 @@
       const getURLElement = document.getElementById("getURL");
       const resultElement = document.getElementById("result");
       const resultLink = document.getElementById("authURL");
-      // Replace this with your own endpoint
       const getAuthURL =
-        "https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url";
+        "https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url/";
 
       getURLElement.onclick = function () {
         fetch(getAuthURL)
