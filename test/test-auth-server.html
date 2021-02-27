@@ -45,7 +45,7 @@
       const resultElement = document.getElementById("result");
       const resultLink = document.getElementById("authURL");
       const getAuthURL =
-        "https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url/";
+        "https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url";
 
       getURLElement.onclick = function () {
         fetch(getAuthURL)
@@ -67,12 +67,11 @@
       const getAccessToken = document.getElementById("getToken");
       const accessTokenElement = document.getElementById("accessToken");
       const getToken =
-      "https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/token/";
+      "https://1en7geho0m.execute-api.us-east-1.amazonaws.com/dev/api/token";
 
       getAccessToken.onclick = function () {
         let code = codeValue.value;
 
-        // if the authorization code is not URL-encoded, then URL-encode it.
         if (decodeURIComponent(code) === code) {
           code = encodeURIComponent(codeValue.value);
         }

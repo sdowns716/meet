@@ -23,11 +23,11 @@ functions:
       - http:
           path: api/get-auth-url
           method: get
-          cors: true
+          cors: false
   getAccessToken:
     handler: handler.getAccessToken
     events:
       - http:
           path: api/token/{code}
           method: get
-          cors: true
+          cors: false

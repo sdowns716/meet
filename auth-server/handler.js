@@ -21,6 +21,26 @@ const oAuth2Client = new google.auth.OAuth2(
   redirect_uris[0]
 );
 
+module.exports.getAuthURL = async () => {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: "offline",
+    scope: SCOPES,
+  });
+
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Methods": "OPTIONS, POST, GET"
+    },
+    body: JSON.stringify({
+      authUrl: authUrl,
+    }),
+  };
+};
+
 module.exports.getAccessToken = async (event) => {
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
@@ -56,22 +76,57 @@ module.exports.getAccessToken = async (event) => {
         body: JSON.stringify(err),
       };
     });
-};
 
-module.exports.getAuthURL = async () => {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: "offline",
-    scope: SCOPES,
-  });
+    module.exports.getCalendarEvents = async (event) => {
+      const oAuth2Client = new google.auth.OAuth2(
+        client_id,
+        client_secret,
+        redirect_uris[0]
+      );
+      const access_token = decodeURIComponent(`${event.pathParameters.access_token}`);
+      oAuth2Client.setCredentials({
+        access_token
+      });
 
-  return {
-    statusCode: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-    },
-    body: JSON.stringify({
-      authUrl: authUrl,
-    }),
-  };
-};
+      return new Promise((resolve, reject) => {
+          calendar.events.list({
+              calendarId: calendar_id,
+              auth: oAuth2Client,
+              timeMin: new Date().toISOString(),
+              maxResults: 32,
+              singleEvents: true,
+              orderBy: "startTime",
+
+            },
+            (error, response) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(response);
+              }
+            }
+          );
+        })
+        .then((results) => {
+          return {
+            statusCode: 200,
+            headers: {
+              "Access-Control-Allow-Headers": "Content-Type",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": true,
+             "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+            },
+            body: JSON.stringify({
+              events: results.data.items
+            })
+          };
+        })
+        .catch((err) => {
+          console.error(err);
+          return {
+            statusCode: 500,
+            body: JSON.stringify(err),
+          };
+        });
+    }
+}

@@ -15,7 +15,7 @@ class App extends Component {
   state = {
     events: [],
     locations: [],
-    NumberOfEvents: 32, 
+    NumberOfEvents: 32,
     currentLocation: "all",
     alertText: "",
   };
