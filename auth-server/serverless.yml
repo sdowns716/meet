@@ -2,6 +2,8 @@ service: auth-server
 
 frameworkVersion: '2'
 
+plugins:
+  - serverless-offline
 provider:
   name: aws
   runtime: nodejs12.x
@@ -31,3 +33,10 @@ functions:
           path: api/token/{code}
           method: get
           cors: false
+  getCalendarEvents:
+    handler: handler.getCalendarEvents
+    events:
+      - http:
+          path: api/get-events/{access_token}
+          method: get
+          # cors: true           
