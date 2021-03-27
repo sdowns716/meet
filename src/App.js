@@ -51,6 +51,9 @@ class App extends Component {
   
   getData = () => {
     console.log(this.state);
+    console.log('This prints a message in CloudWatch prefixed with INFO');
+    console.warn('This prints a message in CloudWatch prefixed with WARN');
+    console.error('This prints a message in CloudWatch prefixed with ERROR');
     const {locations, events} = this.state;
     const data = locations.map((location)=>{
       const number = events.filter((event) => event.location === location).length
