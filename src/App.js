@@ -50,6 +50,7 @@ class App extends Component {
   }
   
   getData = () => {
+    console.log(this.state);
     const {locations, events} = this.state;
     const data = locations.map((location)=>{
       const number = events.filter((event) => event.location === location).length
@@ -82,7 +83,6 @@ class App extends Component {
   }
 
   render() {
-    const { locations, numberOfEvents, events } = this.state;
     return (
       <div className="App">
         <h1>Meet-Us</h1>

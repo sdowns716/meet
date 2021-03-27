@@ -30,7 +30,6 @@ class Event extends Component {
             >Show Details</button>
           )}
         </div>
-
         {showDetails && (
           <div>
             <h3>About this Event:</h3>
