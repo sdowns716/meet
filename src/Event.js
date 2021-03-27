@@ -1,34 +1,54 @@
 import React, { Component } from 'react';
 
 class Event extends Component {
-
   state = {
-  
     showDetails: false
-  }
+  };
 
   handleShowDetails = () => {
-    if(this.state.showDetails === false) {
+    if (this.state.showDetails === false) {
       this.setState({ showDetails: true });
-    }
-    else {
+    } else {
       this.setState({ showDetails: false });
     }
-  }
+  };
+
   render() {
-const showDetails = this.state.showDetails;
+    const showDetails = this.state.showDetails;
+    const { event } = this.props;
+
     return (
       <div className="event">
-        <div className="event__Overview">
-          <p className="event__Overview--name">{this.props.event.name}</p>
-          <p className="event__Overview--localDate">{this.props.event.local_date}</p>
-          <button className="details-btn" onClick={() => this.handleShowDetails()}>show details</button>
+        <div className="overview">
+          <h2>{event.summary}</h2>
+          <p>{event.start.dateTime}</p>
+          <p>{event.location}</p>
+          {!showDetails && (
+            <button
+              className="show-details"
+              onClick={this.handleShowDetails}
+            >Show Details</button>
+          )}
         </div>
-        {showDetails &&
-          <div className="event__Details">
-            <p className="event__Details--description">{this.props.event.description}</p>
+
+        {showDetails && (
+          <div>
+            <h3>About this Event:</h3>
+            <a
+              href={event.htmlLink}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="google-btn">See details on Google Calendar</button>
+            </a>
+            <p>{event.description}</p>
+            <button
+              className="hide-details"
+              onClick={this.handleShowDetails}
+            >Hide Details</button>
           </div>
-        }
+        )}
+
       </div>
     );
   }
