@@ -83,6 +83,7 @@ module.exports.getCalendarEvents = async (event) => {
     access_token,
   });
   return new Promise((resolve, reject) => {
+    console.log(calendar.events.list);
     calendar.events.list(
       {
         calendarId: calendar_id,
@@ -94,6 +95,8 @@ module.exports.getCalendarEvents = async (event) => {
       },
       (error, response) => {
         if (error) {
+          console.log(error);
+          console.log(response);
           reject(error);
         } else {
           resolve(response);
