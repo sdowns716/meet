@@ -104,7 +104,6 @@ class App extends Component {
 
   render() {
     return (
-      <button onClick={methodDoesNotExist}>Break the world</button>,
       <div className="App">
         <h1>Meet-Us</h1>
         <OfflineAlert text={this.state.alertText} />

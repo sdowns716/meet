@@ -5,6 +5,9 @@ import App from './App';
 //import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import * as atatus from 'atatus-spa';
+import { initSentry } from './libs/errorLib';
+
+initSentry();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
