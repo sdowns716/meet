@@ -20,7 +20,7 @@ Sentry.init({
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
-  tracesSampleRate: 0.5,
+  tracesSampleRate: 1.0,
 });
 
 ReactDOM.render(<App />, document.getElementById("root"));
@@ -104,9 +104,9 @@ class App extends Component {
 
   render() {
     return (
+      <button onClick={methodDoesNotExist}>Break the world</button>,
       <div className="App">
         <h1>Meet-Us</h1>
-        <button onClick={methodDoesNotExist}>Break the world</button>;
         <OfflineAlert text={this.state.alertText} />
         <CitySearch
           locations={this.state.locations}
