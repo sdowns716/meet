@@ -24,11 +24,6 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-ReactDOM.render(<App />, document.getElementById("root"));
-
-// Can also use with React Concurrent Mode
-// ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-
 class App extends Component {
   state = {
     events: [],
@@ -142,5 +137,7 @@ class App extends Component {
     );
   }
 }
+
+ReactDOM.render(<App />, document.getElementById("root"));
 
 export default App;
