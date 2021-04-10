@@ -63,12 +63,18 @@ class App extends Component {
   }
   
   getData = () => {
+    console.log('before');
     console.log(this.state);
-    console.log('This prints a message in CloudWatch prefixed with INFO');
-    console.warn('This prints a message in CloudWatch prefixed with WARN');
-    console.error('This prints a message in CloudWatch prefixed with ERROR');
+    //console.log('This prints a message in CloudWatch prefixed with INFO');
+    //console.warn('This prints a message in CloudWatch prefixed with WARN');
+    //console.error('This prints a message in CloudWatch prefixed with ERROR');
     const {locations, events} = this.state;
+    console.log('middle');
+    console.log(locations);
+    console.log(events);
     const data = locations.map((location)=>{
+      console.log('loop');
+      console.log(location);
       const number = events.filter((event) => event.location === location).length
       const city = location.split(' ').shift()
       return {city, number};
