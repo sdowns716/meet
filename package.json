@@ -16,6 +16,7 @@
     "nprogress": "^0.2.0",
     "react": "next",
     "react-dom": "next",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-service-worker": "^0.1.1",
     "recharts": "^1.8.5",

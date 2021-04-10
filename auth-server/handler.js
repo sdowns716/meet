@@ -71,6 +71,7 @@ module.exports.getAccessToken = async (event) => {
     });
 };
 module.exports.getCalendarEvents = async (event) => {
+  console.log('get calendar events')
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
