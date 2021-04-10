@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 import './App.css';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
@@ -10,6 +12,21 @@ import { OfflineAlert } from "./Alert";
 import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
+
+Sentry.init({
+  dsn: "https://296f8918647445f094990a0395e2f162@o561027.ingest.sentry.io/5697434",
+  integrations: [new Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 0.5,
+});
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+// Can also use with React Concurrent Mode
+// ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 
 class App extends Component {
   state = {
@@ -89,6 +106,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Meet-Us</h1>
+        <button onClick={methodDoesNotExist}>Break the world</button>;
         <OfflineAlert text={this.state.alertText} />
         <CitySearch
           locations={this.state.locations}
