@@ -71,7 +71,7 @@ module.exports.getAccessToken = async (event) => {
     });
 };
 module.exports.getCalendarEvents = async (event) => {
-  console.log('get calendar events')
+  console.error('get calendar events')
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
@@ -84,20 +84,19 @@ module.exports.getCalendarEvents = async (event) => {
     access_token,
   });
   return new Promise((resolve, reject) => {
-    console.log(calendar.events.list);
     calendar.events.list(
       {
         calendarId: calendar_id,
         auth: oAuth2Client,
         timeMin: new Date().toISOString(),
-        maxResults: 32,
+        maxResults: 132,
         singleEvents: true,
         orderBy: "startTime"
       },
       (error, response) => {
         if (error) {
-          console.log(error);
-          console.log(response);
+          console.error(error);
+          console.error(response);
           reject(error);
         } else {
           resolve(response);
@@ -106,6 +105,8 @@ module.exports.getCalendarEvents = async (event) => {
     );
   })
     .then((results) => {
+      console.error('results');
+      console.error(results.data.items);
       return {
         statusCode: 200,
         headers: {
